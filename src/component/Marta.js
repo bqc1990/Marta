@@ -98,7 +98,7 @@ class Marta extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         {this.state.dataForAll.map((item, index) => (
           <Station key={index} data={item} />
         ))}
