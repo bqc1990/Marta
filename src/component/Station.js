@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../style/station.css";
 class Station extends React.Component {
   //set className for difference line, like red line will have according color
   setClassName = () => {
@@ -18,15 +18,16 @@ class Station extends React.Component {
 
   render() {
     return (
-      <div className="card-deck">
+      <div className="card-container card-deck">
         <div className="card mt-2">
           <div className="card-body">
-            <h5 className="card-title">{this.props.data["STATION"]}</h5>
-
             <span className={this.setClassName()}>
               {this.props.data.DIRECTION}
             </span>
-            <span className="card-text"> {this.props.data.NEXT_ARR}</span>
+            <span> {this.props.data.WAITING_TIME}</span>
+          </div>
+          <div className="card-footer text-muted">
+            {this.props.data["STATION"]}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Station from "./Station";
-
+import "../style/marta.css";
 class Marta extends React.Component {
   constructor() {
     super();
@@ -98,7 +98,7 @@ class Marta extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="flex-container">
         {this.state.dataForAll.map((item, index) => (
           <Station key={index} data={item} />
         ))}
