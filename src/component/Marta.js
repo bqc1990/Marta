@@ -108,9 +108,7 @@ class Marta extends React.Component {
   componentDidMount() {
     //for the very first time axios call in order to display data on screen
     axios
-      .get(
-        "http://developer.itsmarta.com/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals?apikey=1f3d4016-3d22-4132-a3fa-64a3276866e0"
-      )
+      .get("http://192.168.1.96:5000/api/station")
       .then((response) => {
         this.setState({
           dataForAll: response.data,
