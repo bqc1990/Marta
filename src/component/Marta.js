@@ -106,6 +106,7 @@ class Marta extends React.Component {
   };
 
   componentDidMount() {
+    //for the very first time axios call in order to display data on screen
     axios
       .get(
         "http://developer.itsmarta.com/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals?apikey=1f3d4016-3d22-4132-a3fa-64a3276866e0"
@@ -120,6 +121,7 @@ class Marta extends React.Component {
       .catch((error) => {
         console.log(error);
       });
+
     this.interval = setInterval(() => {
       axios
         .get(
