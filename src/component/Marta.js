@@ -63,7 +63,7 @@ class Marta extends React.Component {
           WAITING_TIME: "Boarding",
         },
       ],
-      data_VINE_CITY_STATION: [],
+      data_STATION: new Map(),
     };
   }
 
@@ -78,32 +78,77 @@ class Marta extends React.Component {
     });
   };
 
+  processDataGroupByStation = async () => {
+    let map = new Map();
+
+    this.state.dataForAll.forEach((da) => {
+      if (map.has(da.STATION)) {
+        map.get(da.STATION).push({
+          direction: da.DIRECTION,
+          line: da.LINE,
+          waiting_time: da.WAITING_TIME,
+        });
+      } else {
+        map.set(da.STATION, [
+          {
+            direction: da.DIRECTION,
+            line: da.LINE,
+            waiting_time: da.WAITING_TIME,
+          },
+        ]);
+      }
+    });
+    this.setState({
+      data_STATION: map,
+    });
+
+    console.log("process", map);
+  };
+
   componentDidMount() {
     axios
       .get(
         "http://developer.itsmarta.com/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals?apikey=1f3d4016-3d22-4132-a3fa-64a3276866e0"
       )
       .then((response) => {
-        console.log(response.data);
         this.setState({
           dataForAll: response.data,
         });
+        console.log("all", response.data);
+        this.processDataGroupByStation();
       })
       .catch((error) => {
         console.log(error);
       });
+    this.interval = setInterval(() => {
+      axios
+        .get(
+          "http://developer.itsmarta.com/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals?apikey=1f3d4016-3d22-4132-a3fa-64a3276866e0"
+        )
+        .then((response) => {
+          this.setState({
+            dataForAll: response.data,
+          });
+          console.log("all", response.data);
+          this.processDataGroupByStation();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, 10000);
+  }
 
-    this.filterStation();
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
-    return (
-      <div className="flex-container">
-        {this.state.dataForAll.map((item, index) => (
-          <Station key={index} data={item} />
-        ))}
-      </div>
+    const items = [];
+    this.state.data_STATION.forEach((val, key) =>
+      items.push(<Station item={val} key={key} station={key} />)
     );
+
+    return <div className="flex-container">{items}</div>;
   }
 }
 

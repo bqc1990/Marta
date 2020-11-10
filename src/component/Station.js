@@ -2,15 +2,15 @@ import React from "react";
 import "../style/station.css";
 class Station extends React.Component {
   //set className for difference line, like red line will have according color
-  setClassName = () => {
-    let classes = "btn btn-";
-    if (this.props.data.LINE === "GOLD") {
+  setClassName = (element) => {
+    let classes = " m-2 btn btn-";
+    if (element.line === "GOLD") {
       classes += "warning";
-    } else if (this.props.data.LINE === "RED") {
+    } else if (element.line === "RED") {
       classes += "danger";
-    } else if (this.props.data.LINE === "GREEN") {
+    } else if (element.line === "GREEN") {
       classes += "success";
-    } else if (this.props.data.LINE === "BLUE") {
+    } else if (element.line === "BLUE") {
       classes += "primary";
     }
     return classes;
@@ -21,13 +21,17 @@ class Station extends React.Component {
       <div className="card-container card-deck">
         <div className="card mt-2">
           <div className="card-body">
-            <span className={this.setClassName()}>
-              {this.props.data.DIRECTION}
-            </span>
-            <span> {this.props.data.WAITING_TIME}</span>
+            {this.props.item.map((element) => (
+              <div>
+                <span className={this.setClassName(element)}>
+                  {element.direction}
+                </span>
+                <span>{element.waiting_time}</span>
+              </div>
+            ))}
           </div>
           <div className="card-footer text-muted">
-            {this.props.data["STATION"]}
+            <h5>{this.props.station}</h5>
           </div>
         </div>
       </div>
